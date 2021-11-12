@@ -19,33 +19,25 @@ import javax.swing.UIManager;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import org.assertj.swing.core.BasicComponentFinder;
 import org.assertj.swing.core.BasicRobot;
-import org.assertj.swing.core.ComponentFinder;
-import org.assertj.swing.core.GenericTypeMatcher;
 import org.assertj.swing.core.Robot;
 import org.assertj.swing.core.matcher.FrameMatcher;
 import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.data.TableCell;
-import org.assertj.swing.edt.FailOnThreadViolationRepaintManager;
-import org.assertj.swing.edt.GuiActionRunner;
-import org.assertj.swing.finder.FrameFinder;
+
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.fixture.JComboBoxFixture;
-import org.assertj.swing.fixture.JPanelFixture;
-import org.assertj.swing.fixture.JSpinnerFixture;
 import org.assertj.swing.fixture.JTableCellFixture;
 import org.assertj.swing.fixture.JTableFixture;
-import org.assertj.swing.fixture.JTextComponentFixture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.toedter.calendar.JCalendar;
-import com.toedter.components.JSpinField;
+import org.assertj.swing.junit.runner.GUITestRunner;
 
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
@@ -59,12 +51,13 @@ import gui.MainGUI;
  * @see https://www.jc-mouse.net/
  * @author mouse
  */
+//@RunWith(GUITestRunner.class)
 public class TestApp {
 
-    private FrameFixture window;
-    MainGUI frame;
-    FrameFixture frame2;
-    Robot robot;
+    private static FrameFixture mainWindowFixture;
+    private static JFrame mainGUI;
+    private static FrameFixture frame2;
+    private static Robot robot;
     public static int v=0;
 
 
@@ -78,8 +71,14 @@ public class TestApp {
      * no se realiza en el EDT (Event Dispatch Thread)
      */
     @BeforeClass
-    public static void setUpOnce() {
-        FailOnThreadViolationRepaintManager.install();
+    public  static void setUpOnce() {
+        robot = BasicRobot.robotWithNewAwtHierarchy();
+
+        mainGUI= createMainGUI();
+		mainGUI.setVisible(true);
+
+        mainWindowFixture = new FrameFixture(robot,mainGUI);
+
     }
 
     /**
@@ -88,12 +87,7 @@ public class TestApp {
      */
     @Before
     public void setUp() {
-    	 robot = BasicRobot.robotWithNewAwtHierarchy();
-    	//Frame frame=configureStart();
-        frame = GuiActionRunner.execute(() -> new MainGUI());
-        configureStart(frame);
-        window = new FrameFixture(robot,frame);
-        window.show();
+    	
         
         
     }
@@ -104,7 +98,7 @@ public class TestApp {
      */
     @After
     public void tearDown() {
-        window.cleanUp();
+        mainWindowFixture.cleanUp();
     }
     
  /*   @Test
@@ -152,29 +146,38 @@ public class TestApp {
     }
     */
     @Test
-    public void conversionHexadecimal() {                
-    	window.button(JButtonMatcher.withText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuery")).andShowing()).click();
+    public void createAndThenQueryEvent() {  
+    	int row=3; //selected Event
+    	mainWindowFixture.button(JButtonMatcher.withText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuery")).andShowing()).click();
         FrameFixture frame = WindowFinder.findFrame(FrameMatcher.withTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuery"))).using(robot).requireVisible();
-        Utils.setDateCalendar(frame,2021,11,17);   
+        
+        
+        Utils.setDateCalendar(frame,2021,11,17);  
+        JComboBoxFixture comboFixture=frame.comboBox("comboEvents");
+        comboFixture.selectItem(row);
+        
+        
         frame.textBox("QueryText").enterText("Hello World!");    
         frame.textBox("BidPrice").enterText("4");    
+        
         JButtonFixture buttonCreate=frame.button(JButtonMatcher.withText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuery")).andShowing());
         buttonCreate.click();
+        Utils.lo(6);
         JButtonFixture buttonClose=frame.button(JButtonMatcher.withText(ResourceBundle.getBundle("Etiquetas").getString("Close")).andShowing());
         buttonClose.click();
-        
-        window.button(JButtonMatcher.withText(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries")).andShowing()).click();
+
+        mainWindowFixture.button(JButtonMatcher.withText(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries")).andShowing()).click();
         FrameFixture frame2 = WindowFinder.findFrame(FrameMatcher.withTitle(ResourceBundle.getBundle("Etiquetas").getString("QueryQueries"))).using(robot).requireVisible();
         Utils.setDateCalendar(frame2,2021,11,17);
-  	//lo(6);
+  	
      JTableFixture tableEventFixture=frame2.table("tableEvents");
-     tableEventFixture.cell(TableCell.row(0).column(0)).click();
+     tableEventFixture.cell(TableCell.row(row).column(0)).click();
      //tableEventFixture.cell("Atletico-Athletic").click();
 
      //tableEventFixture.click();
      //tableEventFixture.cell(TableCell.row(1).column(0)).click();
      JTableFixture tableQueriesFixture=frame2.table("tableQueries");
-     System.out.println("rows "+ tableQueriesFixture.rowCount());
+    
      JTableCellFixture cell;
      for (int r=0; r<tableQueriesFixture.rowCount(); r++) {
          for (int c=0; c<2; c++) {
@@ -189,7 +192,7 @@ public class TestApp {
 
     }  
    
-    public void configureStart(JFrame frame) {
+    public static JFrame createMainGUI() {
     	
     	ConfigXML c=ConfigXML.getInstance();
     	
@@ -199,8 +202,8 @@ public class TestApp {
 		
 		System.out.println("Locale: "+Locale.getDefault());
 		
-		
-		frame.setVisible(true);
+		MainGUI mainGUI=new MainGUI();
+
 
 
 		try {
@@ -257,6 +260,7 @@ public class TestApp {
 		
 		System.out.println("Error in ApplicationLauncher: "+e.toString());
 	}
+		return mainGUI;
 }
    
     

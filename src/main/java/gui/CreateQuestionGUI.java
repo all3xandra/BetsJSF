@@ -54,7 +54,8 @@ public class CreateQuestionGUI extends JFrame {
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuery"));
-
+		
+		jComboBoxEvents.setName("comboEvents");
 		jComboBoxEvents.setModel(modelEvents);
 		jComboBoxEvents.setBounds(new Rectangle(275, 47, 250, 20));
 		jLabelListOfEvents.setBounds(new Rectangle(290, 18, 277, 20));
