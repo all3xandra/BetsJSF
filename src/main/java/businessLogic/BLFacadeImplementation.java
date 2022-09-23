@@ -8,7 +8,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import configuration.ConfigXML;
-import dao.ObjectDbDAOManager;
 import dataAccess.DataAccessInterface;
 import domain.Question;
 import domain.Event;

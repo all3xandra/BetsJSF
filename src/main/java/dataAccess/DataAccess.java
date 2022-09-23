@@ -36,7 +36,7 @@ public class DataAccess implements DataAccessInterface {
 		
 		System.out.println("Creating DataAccess instance => isDatabaseLocal: "+c.isDatabaseLocal()+" getDatabBaseOpenMode: "+c.getDataBaseOpenMode());
 
-		//open(initializeMode);
+		open();
 		
 		/*if (initializeMode)
 			initializeDB();

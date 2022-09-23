@@ -5,7 +5,7 @@
 	<businessLogicPort>1099</businessLogicPort>
 	<businessLogicName>Bets</businessLogicName>
   </businessLogic>
-  <database local="true" DAOManagerClassName="ObjectDbDAOManager">
+  <database local="true" DAOManagerClassName="">
 	<databaseNode>0.0.0.0</databaseNode>
 	<dbFilename>src/main/resources/bets.temp</dbFilename>
 	<dataBaseOpenMode>initialize</dataBaseOpenMode>

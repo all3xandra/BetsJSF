@@ -9,9 +9,8 @@ import java.util.Date;
 import org.junit.Test;
 
 import configuration.ConfigXML;
-import dao.ObjectDbDAOManager;
 import dataAccess.DataAccessInterface;
-import dataAccess.DataAccessDAO;
+import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
@@ -22,7 +21,7 @@ import test.dataAccess.TestDataAccess;
 public class CreateQuestionDAW {
 
 	 //sut:system under test
-	 static DataAccessInterface sut=new DataAccessDAO(new ObjectDbDAOManager());
+	 static DataAccessInterface sut=new DataAccess();
 	 
 	 //additional operations needed to execute the test 
 	 static TestDataAccess testDA=new TestDataAccess();
