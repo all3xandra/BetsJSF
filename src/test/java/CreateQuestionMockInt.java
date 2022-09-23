@@ -109,7 +109,7 @@ public class CreateQuestionMockInt {
 			Question q=sut.createQuestion(null, queryText, betMinimum);
 			
 			//verify the results
-			//Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
+			Mockito.verify(dataAccess,Mockito.times(1)).createQuestion(Mockito.any(Event.class),Mockito.any(String.class), Mockito.any(Integer.class));
 			
 			
 

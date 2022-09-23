@@ -171,6 +171,8 @@ public class DataAccess implements DataAccessInterface {
 	 */
 	public Question createQuestion(Event event, String question, float betMinimum) throws  QuestionAlreadyExist {
 		System.out.println(">> DataAccess: createQuestion=> event= "+event+" question= "+question+" betMinimum="+betMinimum);
+		System.out.println(db+" "+event);
+		
 		
 			Event ev = db.find(Event.class, event.getEventNumber());
 			

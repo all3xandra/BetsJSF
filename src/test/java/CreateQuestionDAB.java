@@ -82,7 +82,7 @@ public class CreateQuestionDAB {
 		        }
 		   }
 	@Test
-	//sut.createQuestion:  The event is null. 
+	//sut.createQuestion:  The event is null. The test fail
 		public void test2() {
 			try {
 				
@@ -115,7 +115,7 @@ public class CreateQuestionDAB {
 				} 
 			   }
 	@Test
-	//sut.createQuestion:  The event has NOT one question with a queryText. 
+	//sut.createQuestion:  The question is null. The test fail
 	public void test3() {
 		try {
 			

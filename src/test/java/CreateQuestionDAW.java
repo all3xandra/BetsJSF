@@ -104,7 +104,7 @@ public class CreateQuestionDAW {
 			assertEquals(q.getQuestion(),queryText);
 			assertEquals(q.getBetMinimum(),betMinimum,0);
 			
-			//q datubasean dago
+			//q is DB
 			testDA.open();
 			boolean exist = testDA.existQuestion(ev,q);
 				
