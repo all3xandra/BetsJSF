@@ -25,7 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreateQuestionMockInt {
-     DataAccessInterface dataAccess=Mockito.mock(DataAccessInterface.class);
+     DataAccess dataAccess=Mockito.mock(DataAccess.class);
      Event mockedEvent=Mockito.mock(Event.class);
 	
 	@InjectMocks
