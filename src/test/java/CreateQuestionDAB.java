@@ -21,7 +21,7 @@ import test.dataAccess.TestDataAccess;
 public class CreateQuestionDAB {
 
 	 //sut:system under test
-	 static DataAccessInterface sut=new DataAccess();
+	 static DataAccess sut=new DataAccess();
 	 
 	 //additional operations needed to execute the test 
 	 static TestDataAccess testDA=new TestDataAccess();
