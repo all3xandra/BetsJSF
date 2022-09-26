@@ -31,7 +31,7 @@ public class CreateQuestionInt {
 		
 		// you can parametrize the DataAccess used by BLFacadeImplementation
 		//DataAccess da= new DataAccess(ConfigXML.getInstance().getDataBaseOpenMode().equals("initialize"));
-		DataAccessInterface da= new DataAccess();
+		DataAccess da= new DataAccess();
 
 		sut=new BLFacadeImplementation(da);
 		
